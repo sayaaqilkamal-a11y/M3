@@ -1,0 +1,269 @@
+/* style.css - Tema oranye, bersih dan tanpa error */
+
+/* RESET & GLOBAL */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+}
+
+html, body {
+  height: 100%;
+}
+
+/* BACKGROUND & BODY */
+body {
+  background: linear-gradient(120deg, #ff8c00 0%, #ffb84d 100%);
+  min-height: 100vh;
+  margin: 0;
+  padding: 40px 12px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  color: #222;
+}
+
+/* BACKGROUND DECOR (optional glow) */
+.background-decor {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(255, 244, 230, 0.6) 0%, transparent 25%),
+    radial-gradient(circle at 90% 90%, rgba(255, 233, 179, 0.45) 0%, transparent 30%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* CONTAINER */
+.container {
+  width: 100%;
+  max-width: 1100px;
+  background: #fffdf8;
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(255, 140, 0, 0.35);
+  overflow: hidden;
+  animation: containerFade 0.8s ease;
+}
+
+/* ANIMATIONS */
+@keyframes containerFade {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* HEADER */
+header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(90deg, #ff8c00 0%, #ffb84d 100%);
+  color: #ffffff;
+  padding: 24px;
+  gap: 16px;
+}
+
+header .logo {
+  width: 100px;
+  height: 100px;
+  background: #fff5e1;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 3px solid #ffcf66;
+  box-shadow: 0 6px 18px rgba(255, 140, 0, 0.22);
+  transition: transform .25s ease;
+}
+
+header .logo:hover {
+  transform: scale(1.03);
+}
+
+header .logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* COMPANY INFO */
+.company-info {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.company-info input[type="text"] {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: none;
+  background: #fffaf0;
+  min-width: 220px;
+  font-size: 15px;
+  color: #333;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.company-info input[type="file"] {
+  padding: 6px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+/* CARD */
+.card {
+  background: #ffffff;
+  margin: 20px;
+  padding: 22px;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(255, 165, 0, 0.15);
+  border-top: 4px solid #ffa500;
+  transition: transform .20s ease, box-shadow .20s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(255, 140, 0, 0.20);
+}
+
+.card h2 {
+  color: #ff8c00;
+  font-size: 20px;
+  margin-bottom: 14px;
+}
+
+/* FORM GRID */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.form-grid input[type="text"],
+.form-grid input[type="date"],
+.form-grid input[type="number"] {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ffd58f;
+  background: #fffaf3;
+  font-size: 14px;
+  transition: box-shadow .15s ease, border-color .15s ease;
+}
+
+.form-grid input:focus {
+  outline: none;
+  border-color: #ff8c00;
+  box-shadow: 0 4px 12px rgba(255, 140, 0, 0.12);
+}
+
+/* BUTTONS */
+button {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  font-weight: 600;
+  background: linear-gradient(90deg, #ff8c00 0%, #ffb84d 100%);
+  box-shadow: 0 6px 18px rgba(255, 140, 0, 0.22);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(255, 140, 0, 0.30);
+}
+
+/* TABLE WRAPPER */
+.table-wrapper {
+  overflow-x: auto;
+  margin-top: 8px;
+}
+
+/* TABLE */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 6px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #ffe3b3;
+  font-size: 14px;
+}
+
+th {
+  background: linear-gradient(90deg, #ff8c00 0%, #ffb84d 100%);
+  color: white;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+tbody tr:nth-child(even) {
+  background: #fff7e0;
+}
+
+tbody tr:hover {
+  background: #ffe6b3;
+}
+
+/* ACTION BUTTONS IN TABLE */
+button.edit {
+  background: linear-gradient(90deg, #ffa62b 0%, #ffc266 100%);
+  padding: 8px 10px;
+  font-size: 13px;
+}
+
+button.hapus {
+  background: linear-gradient(90deg, #ff4d4d 0%, #ff7b7b 100%);
+  padding: 8px 10px;
+  font-size: 13px;
+}
+
+/* TOTAL STOK */
+.total-stok {
+  text-align: right;
+  margin-top: 14px;
+  font-weight: 700;
+  color: #d35400;
+}
+
+/* RESPONSIVE */
+@media (max-width: 880px) {
+  .company-info input[type="text"] {
+    min-width: 160px;
+  }
+  .form-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  header {
+    padding: 16px;
+  }
+  .company-info {
+    width: 100%;
+    gap: 8px;
+  }
+  .form-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .card {
+    margin: 12px;
+    padding: 16px;
+  }
+}

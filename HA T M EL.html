@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manajemen Stok Barang</title>
+  <link rel="stylesheet" href="styll.css">
+</head>
+<body>
+  <div class="background-decor"></div>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <img id="logo-preview" src="" alt="Logo Perusahaan">
+      </div>
+      <div class="company-info">
+        <input type="file" id="logo-input" accept="image/*">
+        <input type="text" id="company-name" placeholder="Nama Perusahaan">
+      </div>
+    </header>
+
+    <section class="card">
+      <h2>Input Data Barang</h2>
+      <div class="form-grid">
+        <input type="text" id="namaBarang" placeholder="Nama Barang">
+        <input type="date" id="tanggal">
+        <input type="number" id="barangMasuk" placeholder="Barang Masuk">
+        <input type="number" id="barangKeluar" placeholder="Barang Keluar">
+        <input type="number" id="harga" placeholder="Harga per Barang (Rp)">
+        <button id="tambah">Tambah / Update</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Daftar Stok Barang</h2>
+      <div class="table-wrapper">
+        <table id="tabelBarang">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Nama Barang</th>
+              <th>Tanggal</th>
+              <th>Masuk</th>
+              <th>Keluar</th>
+              <th>Stok Saat Ini</th>
+              <th>Harga per Barang</th>
+              <th>Total Nilai</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="total-stok">
+        <strong>Total Nilai Semua Barang:</strong> <span id="totalSemua">Rp 0</span>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const data = JSON.parse(localStorage.getItem('stokBarang')) || [];
+    const tabel = document.querySelector('#tabelBarang tbody');
+    const totalSemua = document.getElementById('totalSemua');
+
+    function renderTabel() {
+      tabel.innerHTML = '';
+      let totalKeseluruhan = 0;
+
+      data.forEach((item, i) => {
+        const total = item.stok * item.harga;
+        totalKeseluruhan += total;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${i + 1}</td>
+          <td>${item.nama}</td>
+          <td>${item.tanggal}</td>
+          <td>${item.masuk}</td>
+          <td>${item.keluar}</td>
+          <td>${item.stok}</td>
+          <td>Rp ${item.harga.toLocaleString('id-ID')}</td>
+          <td>Rp ${total.toLocaleString('id-ID')}</td>
+          <td>
+            <button class="edit" onclick="editData(${i})">Edit</button>
+            <button class="hapus" onclick="hapusData(${i})">Hapus</button>
+          </td>
+        `;
+        tabel.appendChild(tr);
+      });
+
+      totalSemua.textContent = `Rp ${totalKeseluruhan.toLocaleString('id-ID')}`;
+      localStorage.setItem('stokBarang', JSON.stringify(data));
+    }
+
+    document.getElementById('tambah').onclick = () => {
+      const nama = document.getElementById('namaBarang').value.trim();
+      const tanggal = document.getElementById('tanggal').value;
+      const masuk = +document.getElementById('barangMasuk').value || 0;
+      const keluar = +document.getElementById('barangKeluar').value || 0;
+      const harga = +document.getElementById('harga').value || 0;
+
+      if (!nama || !tanggal) return alert('Lengkapi semua data.');
+
+      const existing = data.find(item => item.nama === nama);
+      if (existing) {
+        existing.masuk += masuk;
+        existing.keluar += keluar;
+        existing.stok = existing.stok + masuk - keluar;
+        if (harga > 0) existing.harga = harga;
+      } else {
+        const stok = masuk - keluar;
+        data.push({ nama, tanggal, masuk, keluar, stok, harga });
+      }
+
+      renderTabel();
+      document.querySelectorAll('.form-grid input').forEach(i => i.value = '');
+    };
+
+    function editData(i) {
+      const item = data[i];
+      document.getElementById('namaBarang').value = item.nama;
+      document.getElementById('tanggal').value = item.tanggal;
+      document.getElementById('barangMasuk').value = item.masuk;
+      document.getElementById('barangKeluar').value = item.keluar;
+      document.getElementById('harga').value = item.harga;
+      data.splice(i, 1);
+      renderTabel();
+    }
+
+    function hapusData(i) {
+      if (confirm('Yakin ingin menghapus data ini?')) {
+        data.splice(i, 1);
+        renderTabel();
+      }
+    }
+
+    // Logo perusahaan
+    const logoInput = document.getElementById('logo-input');
+    logoInput.onchange = e => {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        document.getElementById('logo-preview').src = reader.result;
+        localStorage.setItem('logo', reader.result);
+      };
+      reader.readAsDataURL(file);
+    };
+
+    const savedLogo = localStorage.getItem('logo');
+    if (savedLogo) document.getElementById('logo-preview').src = savedLogo;
+
+    renderTabel();
+  </script>
+</body>
+</html>
